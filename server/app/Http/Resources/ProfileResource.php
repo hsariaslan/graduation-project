@@ -15,11 +15,11 @@ class ProfileResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'username'  => apiCrypt($this->username),
-            'email'     => apiCrypt($this->email),
-            'name'      => apiCrypt($this->name),
-            'surname'   => apiCrypt($this->surname),
-            'role'      => apiCrypt($this->role),
+            'username' => apiCrypt($this->username),
+            'email' => apiCrypt($this->email),
+            'name' => apiCrypt($this->name),
+            'surname' => apiCrypt($this->surname),
+            'role' => apiCrypt($this->role),
         ];
     }
 }

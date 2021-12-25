@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\User;
 
 class ProjectResource extends JsonResource
 {
@@ -16,7 +17,7 @@ class ProjectResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'user' => new UserResource(User::findOrFail($this->user_id)),
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,

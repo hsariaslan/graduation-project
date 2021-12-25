@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
+use App\Models\Project;
+use App\Models\Selection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class AssignmentResource extends JsonResource
@@ -16,10 +19,10 @@ class AssignmentResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'project_id' => $this->project_id,
-            'student_id' => $this->student_id,
-            'teacher_id' => $this->teacher_id,
-            'selection_id' => $this->selection_id,
+            'project' => new ProjectResource(Project::findOrFail($this->project_id)),
+            'student' => new UserResource(User::findOrFail($this->student_id)),
+            'teacher' => new UserResource(User::find($this->teacher_id)),
+            'selection' => new SelectionResource(Selection::find($this->selection_id)),
             'assignment_type' => $this->assignment_type,
         ];
     }
