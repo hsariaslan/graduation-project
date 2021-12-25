@@ -10,7 +10,7 @@ const helpers = {
     },
 
     decrypt: function (data: string) {
-        const apiCryptKey: string = <string>process.env.REACT_APP_API_CRYPT_KEY;
+        const apiCryptKey: string = <string>process.env.REACT_APP_CRYPT_KEY;
         const key = CryptoJS.enc.Utf8.parse(apiCryptKey);
         let decrypt = CryptoJS.AES.decrypt(data, key, {mode: CryptoJS.mode.ECB});
         let stringDecrypt = decrypt.toString(CryptoJS.enc.Utf8);
