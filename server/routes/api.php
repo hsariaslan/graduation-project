@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\v1\AssignmentController;
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\ProfileController;
 use App\Http\Controllers\Api\v1\ProjectController;
 use App\Http\Controllers\Api\v1\SelectionController;
 use App\Http\Controllers\Api\v1\UserController;
@@ -24,6 +25,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
+Route::apiResource('profile', ProfileController::class);
 Route::apiResource('users', UserController::class);
 Route::apiResource('projects', ProjectController::class);
 Route::apiResource('selections', SelectionController::class);
