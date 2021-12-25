@@ -123,6 +123,11 @@
       <excludeFolder url="file://$MODULE_DIR$/server/vendor/sebastian/complexity" />
       <excludeFolder url="file://$MODULE_DIR$/server/vendor/sebastian/recursion-context" />
       <excludeFolder url="file://$MODULE_DIR$/server/vendor/sebastian/object-enumerator" />
+      <excludeFolder url="file://$MODULE_DIR$/server/storage/framework/cache/data/02" />
+      <excludeFolder url="file://$MODULE_DIR$/server/storage/framework/cache/data/6b" />
+      <excludeFolder url="file://$MODULE_DIR$/server/storage/framework/cache/data/c0" />
+      <excludeFolder url="file://$MODULE_DIR$/server/storage/framework/cache/data/ec" />
+      <excludeFolder url="file://$MODULE_DIR$/server/vendor" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
