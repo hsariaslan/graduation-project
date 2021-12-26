@@ -2,7 +2,7 @@ import CryptoJS from "crypto-js";
 
 const helpers = {
     isNull: function (variable: any) {
-        return typeof (variable) === 'undefined' || variable === null || variable === 'null' || variable === '' || variable == [] || variable.length == 0;
+        return typeof (variable) === 'undefined' || variable === null || variable === 'null' || variable === '' || variable === [] || variable.length === 0;
     },
 
     isNotNull: function (variable: any) {
@@ -28,7 +28,7 @@ const helpers = {
     },
 
     getUserDataFromStorage: function () {
-        const userStorageNamePrefix:string = <string>process.env.REACT_APP_STORAGE_NAME + '_user_';
+        const userStorageNamePrefix:string = process.env.REACT_APP_STORAGE_NAME + '_user_' as string;
         let user = {
             email: "",
             name: "",
