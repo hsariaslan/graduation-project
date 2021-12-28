@@ -1,5 +1,6 @@
 import React from "react";
-// import { useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -94,7 +95,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
 );
 
-const App = () => {
+const DashboardLayout = () => {
     // let navigate = useNavigate();
     // const userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
     //
@@ -131,7 +132,7 @@ const App = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        Anasayfa
+                        DashboardLayout
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -143,54 +144,55 @@ const App = () => {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {['Anasayfa', 'Projeler', 'Seçimler', 'Eşleşmeler'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {
-                                    index === 0 ? <DashboardIcon /> :
-                                    index === 1 ? <FormatListNumberedIcon /> :
-                                    index === 2 ? <CheckCircleIcon /> :
-                                    index === 3 ? <PlaylistAddCheckCircleIcon /> : null
-                                }
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
+                    {[
+                        ['Anasayfa', ''],
+                        ['Projeler', 'projects'],
+                        ['Seçimler', 'selections'],
+                        ['Eşleşmeler', 'assignments']
+                    ].map((text, index) => (
+                        <Link to={'/' + text[1]}>
+                            <ListItem button key={text[0]} title={text[0]}>
+                                <ListItemIcon>
+                                    {
+                                        index === 0 ? <DashboardIcon /> :
+                                        index === 1 ? <FormatListNumberedIcon /> :
+                                        index === 2 ? <CheckCircleIcon /> :
+                                        index === 3 ? <PlaylistAddCheckCircleIcon /> : null
+                                    }
+                                </ListItemIcon>
+                                <ListItemText primary={text[0]} />
+                            </ListItem>
+                        </Link>
                     ))}
                 </List>
                 <Divider />
                 <List>
-                    {['Profil', 'Çıkış'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {
-                                    index === 0 ? <AccountBoxIcon /> :
-                                    index === 1 ? <LogoutIcon /> : null
-                                }
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
+                    {[
+                        ['Profil', 'profile'],
+                        ['Çıkış', 'logout'],
+                    ].map((text, index) => (
+                        <Link to={'/' + text[1]}>
+                            <ListItem button key={text[0]}>
+                                <ListItemIcon>
+                                    {
+                                        index === 0 ? <AccountBoxIcon /> :
+                                        index === 1 ? <LogoutIcon /> : null
+                                    }
+                                </ListItemIcon>
+                                <ListItemText primary={text[0]} />
+                            </ListItem>
+                        </Link>
                     ))}
                 </List>
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <DrawerHeader />
-                <Typography paragraph>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                    tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-                    enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-                    imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-                    Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-                    Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-                    adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-                    nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-                    leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-                    feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-                    consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-                    sapien faucibus et molestie ac.
-                </Typography>
+                <div>
+                    <Outlet />
+                </div>
             </Box>
         </Box>
     );
 };
 
-export default App;
+export default DashboardLayout;
