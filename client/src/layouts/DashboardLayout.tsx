@@ -1,5 +1,4 @@
 import React from "react";
-// import { Link, useNavigate } from "react-router-dom";
 import { Link, Outlet } from "react-router-dom";
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -150,8 +149,8 @@ const DashboardLayout = () => {
                         ['Seçimler', 'selections'],
                         ['Eşleşmeler', 'assignments']
                     ].map((text, index) => (
-                        <Link to={'/' + text[1]}>
-                            <ListItem button key={text[0]} title={text[0]}>
+                        <Link to={'/' + text[1]} key={text[0]}>
+                            <ListItem button title={text[0]}>
                                 <ListItemIcon>
                                     {
                                         index === 0 ? <DashboardIcon /> :
@@ -171,8 +170,8 @@ const DashboardLayout = () => {
                         ['Profil', 'profile'],
                         ['Çıkış', 'logout'],
                     ].map((text, index) => (
-                        <Link to={'/' + text[1]}>
-                            <ListItem button key={text[0]}>
+                        <Link to={'/' + text[1]} key={text[0]}>
+                            <ListItem button>
                                 <ListItemIcon>
                                     {
                                         index === 0 ? <AccountBoxIcon /> :
