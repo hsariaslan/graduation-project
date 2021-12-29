@@ -5,18 +5,8 @@ import {useAuth} from "../../auth";
 const Logout = () => {
     let navigate = useNavigate();
     let auth = useAuth();
-    const userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
 
-    sessionStorage.removeItem(userStorageName + 'email');
-    sessionStorage.removeItem(userStorageName + 'name');
-    sessionStorage.removeItem(userStorageName + 'surname');
-    sessionStorage.removeItem(userStorageName + 'role');
-    localStorage.removeItem(userStorageName + 'email');
-    localStorage.removeItem(userStorageName + 'name');
-    localStorage.removeItem(userStorageName + 'surname');
-    localStorage.removeItem(userStorageName + 'role');
-
-    auth.signout(() => {
+    auth.logout(() => {
         navigate("/login", { replace: true });
     });
 

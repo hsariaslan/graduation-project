@@ -11,30 +11,33 @@ interface Credentials {
 
 interface AuthContextType {
     user: any;
-    signin: (user: Credentials, callback: VoidFunction) => void;
-    signout: (callback: VoidFunction) => void;
+    login: (user: Credentials, callback: VoidFunction) => void;
+    logout: (callback: VoidFunction) => void;
 }
 
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+const userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
 let AuthContext = React.createContext<AuthContextType>(null!);
 
 function AuthProvider({children}: { children: React.ReactNode }) {
     let [user, setUser] = React.useState<any>(null);
 
-    let signin = (credentials: Credentials, callback: VoidFunction) => {
-        return fakeAuthProvider.signin(credentials, () => {
+    let login = (credentials: Credentials, callback: VoidFunction) => {
+        return authApiProvider.login(credentials, () => {
             setUser(credentials);
             callback();
         });
     };
 
-    let signout = (callback: VoidFunction) => {
-        return fakeAuthProvider.signout(() => {
+    let logout = (callback: VoidFunction) => {
+        return authApiProvider.logout(() => {
             setUser(null);
             callback();
         });
     };
 
-    let value = {user, signin, signout};
+    let value = {user, login, logout};
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
@@ -46,7 +49,6 @@ function useAuth() {
 function RequireAuth({children}: { children: JSX.Element }) {
     let auth = useAuth();
     let location = useLocation();
-    const userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
 
     if (!auth.user && (helpers.isNull(localStorage.getItem(userStorageName + 'email')) && helpers.isNull(sessionStorage.getItem(userStorageName + 'email')))) {
         return <Navigate to="/login" state={{from: location}} replace/>;
@@ -57,7 +59,6 @@ function RequireAuth({children}: { children: JSX.Element }) {
 
 function WithoutAuth({children}: { children: JSX.Element }) {
     let location = useLocation();
-    const userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
 
     if (localStorage.getItem(userStorageName + 'email') || sessionStorage.getItem(userStorageName + 'email')) {
         return <Navigate to="/" state={{from: location}} replace/>;
@@ -66,12 +67,11 @@ function WithoutAuth({children}: { children: JSX.Element }) {
     return children;
 }
 
-const fakeAuthProvider = {
+const authApiProvider = {
     isAuthenticated: false,
-    signin(credentials: Credentials, callback: VoidFunction) {
-        fakeAuthProvider.isAuthenticated = true;
-        axios.get('http://localhost:8000/sanctum/csrf-cookie').then(() => {
-            axios.post('http://localhost:8000/api/v1/login', {
+    login(credentials: Credentials, callback: VoidFunction) {
+        axios.get(process.env.REACT_APP_SERVER_URL + '/sanctum/csrf-cookie').then(() => {
+            axios.post('/login', {
                 email: credentials.email,
                 password: credentials.password
             }).then((response) => {
@@ -99,17 +99,32 @@ const fakeAuthProvider = {
                 }
 
                 // user = helpers.getUserDataFromStorage();
+                authApiProvider.isAuthenticated = true;
                 callback();
             }).catch((error) => {
-                // reject(error);
                 console.log(error);
             });
         });
     },
 
-    signout(callback: VoidFunction) {
-        fakeAuthProvider.isAuthenticated = false;
-        setTimeout(callback, 100);
+    logout(callback: VoidFunction) {
+        axios.post('/logout').then(() => {
+            let userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
+
+            sessionStorage.removeItem(userStorageName + 'email');
+            sessionStorage.removeItem(userStorageName + 'name');
+            sessionStorage.removeItem(userStorageName + 'surname');
+            sessionStorage.removeItem(userStorageName + 'role');
+            localStorage.removeItem(userStorageName + 'email');
+            localStorage.removeItem(userStorageName + 'name');
+            localStorage.removeItem(userStorageName + 'surname');
+            localStorage.removeItem(userStorageName + 'role');
+
+            authApiProvider.isAuthenticated = false;
+            callback();
+        }).catch((error) => {
+            console.log(error);
+        });
     }
 };
 

@@ -2,7 +2,6 @@ import * as React from 'react';
 import {Link, useNavigate} from "react-router-dom";
 import {useAuth} from "../../auth";
 import {useTranslation} from "react-i18next";
-import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -29,7 +28,6 @@ function Copyright(props: any) {
 }
 
 const theme = createTheme();
-axios.defaults.withCredentials = true;
 
 export default function Login() {
     let navigate = useNavigate();
@@ -45,7 +43,7 @@ export default function Login() {
             rememberMe: data.get('rememberMe') as any,
         } ;
 
-        auth.signin(credentials, () => {
+        auth.login(credentials, () => {
             navigate('/', { replace: true });
         });
     };

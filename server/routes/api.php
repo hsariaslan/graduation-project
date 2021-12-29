@@ -25,11 +25,16 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('/register', [AuthController::class, 'register']);
 });
 
-Route::apiResource('profile', ProfileController::class);
-Route::apiResource('users', UserController::class);
-Route::apiResource('projects', ProjectController::class);
-Route::apiResource('selections', SelectionController::class);
-Route::apiResource('assignments', AssignmentController::class);
+//Route::apiResource('profile', ProfileController::class);
+//Route::apiResource('users', UserController::class);
+//Route::apiResource('projects', ProjectController::class);
+//Route::apiResource('selections', SelectionController::class);
+//Route::apiResource('assignments', AssignmentController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('profile', ProfileController::class);
+    Route::apiResource('users', UserController::class);
+    Route::apiResource('projects', ProjectController::class);
+    Route::apiResource('selections', SelectionController::class);
+    Route::apiResource('assignments', AssignmentController::class);
 });
