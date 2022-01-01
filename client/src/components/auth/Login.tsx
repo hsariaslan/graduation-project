@@ -12,6 +12,8 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert, {AlertProps} from '@mui/material/Alert';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
 
 function Copyright(props: any) {
@@ -29,23 +31,48 @@ function Copyright(props: any) {
 
 const theme = createTheme();
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref,
+) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export default function Login() {
     let navigate = useNavigate();
     let auth = useAuth();
     const {t} = useTranslation();
+    const [openSnackbar, setOpenSnackbar] = React.useState(false);
+    const [errorMessage, setErrorMessage] = React.useState("");
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        setErrorMessage("");
+        setOpenSnackbar(false);
+
         let data = new FormData(event.currentTarget);
         let credentials = {
             email: data.get('email') as string,
             password: data.get('password') as string,
             rememberMe: data.get('rememberMe') as any,
-        } ;
+        };
 
         auth.login(credentials, () => {
-            navigate('/', { replace: true });
+            navigate('/', {replace: true});
+        }).catch((error: { response: any; }) => {
+            setOpenSnackbar(true);
+            setErrorMessage(error.response.data.message);
         });
+
+    };
+
+    const handleCloseSnackbar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnackbar(false);
     };
 
     return (
@@ -107,6 +134,14 @@ export default function Login() {
                     </Box>
                 </Box>
                 <Copyright sx={{mt: 8, mb: 4}}/>
+                {errorMessage !== "" ?
+                    <Snackbar open={openSnackbar} onClose={handleCloseSnackbar}>
+                        <Alert onClose={handleCloseSnackbar} severity="error" sx={{width: '100%'}}>
+                            {errorMessage}
+                        </Alert>
+                    </Snackbar>
+                    : null
+                }
             </Container>
         </ThemeProvider>
     );

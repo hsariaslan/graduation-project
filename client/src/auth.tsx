@@ -11,7 +11,7 @@ interface Credentials {
 
 interface AuthContextType {
     user: any;
-    login: (user: Credentials, callback: VoidFunction) => void;
+    login: (user: Credentials, callback: VoidFunction) => any;
     logout: (callback: VoidFunction) => void;
 }
 
@@ -30,6 +30,13 @@ function AuthProvider({children}: { children: React.ReactNode }) {
         });
     };
 
+    // let login = (credentials: Credentials) => {
+    //     setUser(credentials);
+    //     return authApiProvider.login(credentials);
+    // };
+
+    // console.log(login);
+
     let logout = (callback: VoidFunction) => {
         return authApiProvider.logout(() => {
             setUser(null);
@@ -39,6 +46,7 @@ function AuthProvider({children}: { children: React.ReactNode }) {
 
     let value = {user, login, logout};
 
+    // @ts-ignore
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
@@ -69,40 +77,46 @@ function WithoutAuth({children}: { children: JSX.Element }) {
 
 const authApiProvider = {
     isAuthenticated: false,
+
     login(credentials: Credentials, callback: VoidFunction) {
-        axios.get(process.env.REACT_APP_SERVER_URL + '/sanctum/csrf-cookie').then(() => {
-            axios.post('/login', {
-                email: credentials.email,
-                password: credentials.password
-            }).then((response) => {
-                let user = response.data.data;
-                const userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
+        return new Promise((resolve, reject) => {
+            axios.get(process.env.REACT_APP_SERVER_URL + '/sanctum/csrf-cookie').then(() => {
+                axios.post('/login', {
+                    email: credentials.email,
+                    password: credentials.password
+                }).then((response) => {
+                    let user = response.data.data;
+                    const userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
 
-                if (helpers.isNull(credentials.rememberMe)) {
-                    sessionStorage.setItem(userStorageName + 'email', user.email);
-                    sessionStorage.setItem(userStorageName + 'name', user.name);
-                    sessionStorage.setItem(userStorageName + 'surname', user.surname);
-                    sessionStorage.setItem(userStorageName + 'role', user.role);
-                    localStorage.removeItem(userStorageName + 'email');
-                    localStorage.removeItem(userStorageName + 'name');
-                    localStorage.removeItem(userStorageName + 'surname');
-                    localStorage.removeItem(userStorageName + 'role');
-                } else {
-                    localStorage.setItem(userStorageName + 'email', user.email);
-                    localStorage.setItem(userStorageName + 'name', user.name);
-                    localStorage.setItem(userStorageName + 'surname', user.surname);
-                    localStorage.setItem(userStorageName + 'role', user.role);
-                    sessionStorage.removeItem(userStorageName + 'email');
-                    sessionStorage.removeItem(userStorageName + 'name');
-                    sessionStorage.removeItem(userStorageName + 'surname');
-                    sessionStorage.removeItem(userStorageName + 'role');
-                }
+                    if (helpers.isNull(credentials.rememberMe)) {
+                        sessionStorage.setItem(userStorageName + 'email', user.email);
+                        sessionStorage.setItem(userStorageName + 'name', user.name);
+                        sessionStorage.setItem(userStorageName + 'surname', user.surname);
+                        sessionStorage.setItem(userStorageName + 'role', user.role);
+                        localStorage.removeItem(userStorageName + 'email');
+                        localStorage.removeItem(userStorageName + 'name');
+                        localStorage.removeItem(userStorageName + 'surname');
+                        localStorage.removeItem(userStorageName + 'role');
+                    } else {
+                        localStorage.setItem(userStorageName + 'email', user.email);
+                        localStorage.setItem(userStorageName + 'name', user.name);
+                        localStorage.setItem(userStorageName + 'surname', user.surname);
+                        localStorage.setItem(userStorageName + 'role', user.role);
+                        sessionStorage.removeItem(userStorageName + 'email');
+                        sessionStorage.removeItem(userStorageName + 'name');
+                        sessionStorage.removeItem(userStorageName + 'surname');
+                        sessionStorage.removeItem(userStorageName + 'role');
+                    }
 
-                // user = helpers.getUserDataFromStorage();
-                authApiProvider.isAuthenticated = true;
-                callback();
-            }).catch((error) => {
-                console.log(error);
+                    // user = helpers.getUserDataFromStorage();
+                    authApiProvider.isAuthenticated = true;
+                    callback();
+                    resolve('success');
+                }).catch((error) => {
+                    // console.log(errors);
+                    authApiProvider.isAuthenticated = false;
+                    reject(error);
+                });
             });
         });
     },
