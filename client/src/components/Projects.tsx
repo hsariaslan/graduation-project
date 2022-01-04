@@ -1,11 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useDispatch } from 'react-redux';
 import { update } from '../features/title/title';
 
 const Projects = () => {
     const dispatch = useDispatch();
 
-    dispatch(update("Projeler"));
+    useEffect(() => {
+        dispatch(update("Projeler"));
+    }, []);
 
     return (
         <div>Projects.tsx</div>

@@ -2,16 +2,16 @@ import React, {useEffect} from "react";
 import { useDispatch } from 'react-redux';
 import { update } from '../features/title/title';
 
-const Home = () => {
+const Students = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(update("Anasayfa"));
+        dispatch(update("Öğrenciler"));
     }, []);
 
     return (
-        <div>Home.tsx</div>
+        <div>Students.tsx</div>
     );
 };
 
-export default Home;
+export default Students;

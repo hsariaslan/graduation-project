@@ -8,9 +8,10 @@ import "./i18n";
 import './index.css';
 import DashboardLayout from "./layouts/DashboardLayout";
 import Home from "./components/Home";
+import MyProjects from "./components/MyProjects";
 import Projects from "./components/Projects";
 import Selections from "./components/Selections";
-import Assignments from "./components/Assignments";
+import Students from "./components/Students";
 import Profile from "./components/Profile";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -30,9 +31,10 @@ render(
                         }
                     >
                         <Route index element={<Home/>}/>
+                        <Route path="/my-projects" element={<MyProjects/>}/>
                         <Route path="/projects" element={<Projects/>}/>
                         <Route path="/selections" element={<Selections/>}/>
-                        <Route path="/assignments" element={<Assignments/>}/>
+                        <Route path="/students" element={<Students/>}/>
                         <Route path="/profile" element={<Profile/>}/>
                         <Route path="/logout" element={<Logout/>}/>
                     </Route>
