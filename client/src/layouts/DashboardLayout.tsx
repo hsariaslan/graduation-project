@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -21,8 +21,10 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import LogoutIcon from '@mui/icons-material/Logout';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import PlaylistAddCheckCircleIcon from '@mui/icons-material/PlaylistAddCheckCircle';
+import helpers from "../helpers";
 
 const drawerWidth = 200;
 
@@ -102,12 +104,32 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 const DashboardLayout = () => {
-    // let navigate = useNavigate();
-    // const userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
-    //
-    // if (!localStorage.getItem(userStorageName + 'email') && !sessionStorage.getItem(userStorageName + 'email')) {
-    //     navigate('login');
-    // }
+    const userStorageRole = process.env.REACT_APP_STORAGE_NAME + '_user_role';
+    let menus:any;
+    let userRole:any;
+
+    if (localStorage.getItem(userStorageRole)) {
+        userRole = helpers.decryptStorageData(userStorageRole, "local");
+    } else {
+        userRole = helpers.decryptStorageData(userStorageRole);
+    }
+
+    userRole = userRole[0];
+
+    if(userRole === "1") {
+        menus = [
+            ['Anasayfa', ''],
+            ['Projelerim', 'my-projects'],
+            ['Projeler', 'projects'],
+            ['Öğrenciler', 'students'],
+        ]
+    } else if(userRole === "2") {
+        menus = [
+            ['Anasayfa', ''],
+            ['Projeler', 'projects'],
+            ['Tercihlerim', 'selections'],
+        ]
+    }
 
     const title = useSelector((state:IState) => state.title.value);
 
@@ -152,12 +174,7 @@ const DashboardLayout = () => {
                 </DrawerHeader>
                 <Divider />
                 <List>
-                    {[
-                        ['Anasayfa', ''],
-                        ['Projeler', 'projects'],
-                        ['Seçimler', 'selections'],
-                        ['Eşleşmeler', 'assignments']
-                    ].map((text, index) => (
+                    {menus.map((text:string, index:number) => (
                         <Link to={'/' + text[1]} key={text[0]}>
                             <ListItem button title={text[0]}>
                                 <ListItemIcon>
@@ -165,7 +182,8 @@ const DashboardLayout = () => {
                                         index === 0 ? <DashboardIcon /> :
                                         index === 1 ? <FormatListNumberedIcon /> :
                                         index === 2 ? <CheckCircleIcon /> :
-                                        index === 3 ? <PlaylistAddCheckCircleIcon /> : null
+                                        index === 3 ? <PlaylistAddCheckCircleIcon /> :
+                                        index === 4 ? <FormatListBulletedIcon /> : null
                                     }
                                 </ListItemIcon>
                                 <ListItemText primary={text[0]} />
