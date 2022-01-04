@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
@@ -59,6 +60,12 @@ interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
 }
 
+interface IState {
+    title: {
+        value: string
+    };
+}
+
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
 })<AppBarProps>(({ theme, open }) => ({
@@ -102,6 +109,8 @@ const DashboardLayout = () => {
     //     navigate('login');
     // }
 
+    const title = useSelector((state:IState) => state.title.value);
+
     const theme = useTheme();
     const [open, setOpen] = React.useState(true);
 
@@ -131,7 +140,7 @@ const DashboardLayout = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
-                        DashboardLayout
+                        {title}
                     </Typography>
                 </Toolbar>
             </AppBar>
