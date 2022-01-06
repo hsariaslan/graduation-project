@@ -21,7 +21,7 @@ class ProjectResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'status' => $this->status,
-            'deadline' => $this->deadline,
+            'deadline' => date('d.m.Y - H:i', strtotime($this->deadline)),
             'uploads' => $this->uploads,
             'score' => $this->score,
         ];

@@ -23,7 +23,7 @@ class ProjectController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'status' => $request->status,
-            'deadline' => $request->deadline,
+            'deadline' => date('Y-m-d H:i:s', strtotime(' +1 day')),
             'uploads' => $request->uploads,
             'score' => $request->score,
         ]);
@@ -38,11 +38,10 @@ class ProjectController extends Controller
 
     public function update(UpdateProjectRequest $request, Project $project): ProjectResource
     {
-        $project->user_id = $request->user_id;
-        $project->title = $request->user_id;
+        $project->title = $request->title;
         $project->description = $request->description;
         $project->status = $request->status;
-        $project->deadline = $request->deadline;
+        $request->deadline ? $project->deadline = $request->deadline : $request->deadline = "";
         $project->uploads = $request->uploads;
         $project->score = $request->score;
         $project->save();

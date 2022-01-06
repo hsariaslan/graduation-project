@@ -30,13 +30,6 @@ function AuthProvider({children}: { children: React.ReactNode }) {
         });
     };
 
-    // let login = (credentials: Credentials) => {
-    //     setUser(credentials);
-    //     return authApiProvider.login(credentials);
-    // };
-
-    // console.log(login);
-
     let logout = (callback: VoidFunction) => {
         return authApiProvider.logout(() => {
             setUser(null);
@@ -89,19 +82,23 @@ const authApiProvider = {
                     const userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
 
                     if (helpers.isNull(credentials.rememberMe)) {
+                        sessionStorage.setItem(userStorageName + 'id', user.id);
                         sessionStorage.setItem(userStorageName + 'email', user.email);
                         sessionStorage.setItem(userStorageName + 'name', user.name);
                         sessionStorage.setItem(userStorageName + 'surname', user.surname);
                         sessionStorage.setItem(userStorageName + 'role', user.role);
+                        localStorage.removeItem(userStorageName + 'id');
                         localStorage.removeItem(userStorageName + 'email');
                         localStorage.removeItem(userStorageName + 'name');
                         localStorage.removeItem(userStorageName + 'surname');
                         localStorage.removeItem(userStorageName + 'role');
                     } else {
+                        localStorage.setItem(userStorageName + 'id', user.id);
                         localStorage.setItem(userStorageName + 'email', user.email);
                         localStorage.setItem(userStorageName + 'name', user.name);
                         localStorage.setItem(userStorageName + 'surname', user.surname);
                         localStorage.setItem(userStorageName + 'role', user.role);
+                        sessionStorage.removeItem(userStorageName + 'id');
                         sessionStorage.removeItem(userStorageName + 'email');
                         sessionStorage.removeItem(userStorageName + 'name');
                         sessionStorage.removeItem(userStorageName + 'surname');
@@ -125,10 +122,12 @@ const authApiProvider = {
         axios.post('/logout').then(() => {
             let userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
 
+            sessionStorage.removeItem(userStorageName + 'id');
             sessionStorage.removeItem(userStorageName + 'email');
             sessionStorage.removeItem(userStorageName + 'name');
             sessionStorage.removeItem(userStorageName + 'surname');
             sessionStorage.removeItem(userStorageName + 'role');
+            localStorage.removeItem(userStorageName + 'id');
             localStorage.removeItem(userStorageName + 'email');
             localStorage.removeItem(userStorageName + 'name');
             localStorage.removeItem(userStorageName + 'surname');

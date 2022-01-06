@@ -7,15 +7,21 @@ import {Provider} from 'react-redux'
 import "./i18n";
 import './index.css';
 import DashboardLayout from "./layouts/DashboardLayout";
-import Home from "./components/Home";
-import MyProjects from "./components/MyProjects";
-import Projects from "./components/Projects";
-import Selections from "./components/Selections";
-import Students from "./components/Students";
-import Profile from "./components/Profile";
-import Login from "./components/auth/Login";
-import Register from "./components/auth/Register";
-import Logout from "./components/auth/Logout";
+import Home from "./views/Home";
+
+import MyProjects from "./views/my_projects/Index";
+import MyProjectsNew from "./views/my_projects/New";
+import MyProjectsShow from "./views/my_projects/Show";
+import MyProjectsEdit from "./views/my_projects/Edit";
+import MyProjectsDelete from "./views/my_projects/Delete";
+
+import Projects from "./views/Projects";
+import Selections from "./views/Selections";
+import Students from "./views/Students";
+import Profile from "./views/Profile";
+import Login from "./views/auth/Login";
+import Register from "./views/auth/Register";
+import Logout from "./views/auth/Logout";
 
 render(
     <Provider store={store}>
@@ -32,6 +38,10 @@ render(
                     >
                         <Route index element={<Home/>}/>
                         <Route path="/my-projects" element={<MyProjects/>}/>
+                        <Route path="/my-projects/new" element={<MyProjectsNew/>}/>
+                        <Route path="/my-projects/:id" element={<MyProjectsShow/>}/>
+                        <Route path="/my-projects/:id/edit" element={<MyProjectsEdit/>}/>
+                        <Route path="/my-projects/:id/delete" element={<MyProjectsDelete/>}/>
                         <Route path="/projects" element={<Projects/>}/>
                         <Route path="/selections" element={<Selections/>}/>
                         <Route path="/students" element={<Students/>}/>
