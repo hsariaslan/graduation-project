@@ -14,11 +14,11 @@ class AssignmentSeeder extends Seeder
      */
     public function run()
     {
-        Assignment::create([
-            'project_id' => 2,
-            'student_id' => 2,
-            'teacher_id' => 1,
-            'selection_id' => 2,
-        ]);
+//        Assignment::create([
+//            'project_id' => 2,
+//            'student_id' => 2,
+//            'teacher_id' => 1,
+//            'selection_id' => 2,
+//        ]);
     }
 }

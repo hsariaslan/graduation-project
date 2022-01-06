@@ -18,7 +18,9 @@ class SelectionResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'project' => new ProjectResource(Project::findOrFail($this->project_id)),
+//            'project' => new ProjectResource(Project::findOrFail($this->project_id)),
+            'project_name' => Project::findOrFail($this->project_id)->title,
+            'project_deadline' => date('d.m.Y - H:i', strtotime(Project::findOrFail($this->project_id)->deadline)),
             'student' => new UserResource(User::findOrFail($this->student_id)),
             'teacher' => new UserResource(User::find($this->teacher_id)),
             'order' => $this->order,

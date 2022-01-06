@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSelectionRequest;
 use App\Http\Requests\UpdateSelectionRequest;
 use App\Http\Resources\SelectionResource;
+use App\Models\Project;
 use App\Models\Selection;
+use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SelectionController extends Controller
@@ -23,7 +26,6 @@ class SelectionController extends Controller
             'student_id' => $request->student_id,
             'teacher_id' => $request->teacher_id,
             'order' => $request->order,
-            'status' => $request->status,
         ]);
 
         return new SelectionResource($selection);
@@ -49,6 +51,15 @@ class SelectionController extends Controller
     public function destroy(Selection $selection): bool
     {
         $selection->delete();
+
+        return true;
+    }
+
+    public function select(Request $request): bool
+    {
+        $project = Project::where('id', $request->id)->first();
+        $project->status = 1;
+        $project->save();
 
         return true;
     }

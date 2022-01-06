@@ -16,7 +16,8 @@ import MyProjectsEdit from "./views/my_projects/Edit";
 import MyProjectsDelete from "./views/my_projects/Delete";
 
 import Projects from "./views/Projects";
-import Selections from "./views/Selections";
+import Selections from "./views/selections/Index";
+import SelectProject from "./views/selections/SelectProject";
 import Students from "./views/Students";
 import Profile from "./views/Profile";
 import Login from "./views/auth/Login";
@@ -37,12 +38,16 @@ render(
                         }
                     >
                         <Route index element={<Home/>}/>
+
                         <Route path="/my-projects" element={<MyProjects/>}/>
                         <Route path="/my-projects/new" element={<MyProjectsNew/>}/>
                         <Route path="/my-projects/:id" element={<MyProjectsShow/>}/>
                         <Route path="/my-projects/:id/edit" element={<MyProjectsEdit/>}/>
                         <Route path="/my-projects/:id/delete" element={<MyProjectsDelete/>}/>
+
                         <Route path="/projects" element={<Projects/>}/>
+                        <Route path="/select-project/:id" element={<SelectProject/>}/>
+
                         <Route path="/selections" element={<Selections/>}/>
                         <Route path="/students" element={<Students/>}/>
                         <Route path="/profile" element={<Profile/>}/>
