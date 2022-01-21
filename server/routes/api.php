@@ -39,4 +39,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('assignments', AssignmentController::class);
 
     Route::post('select-project', [SelectionController::class, 'select']);
+    Route::post('cancel-select', [SelectionController::class, 'cancel']);
 });

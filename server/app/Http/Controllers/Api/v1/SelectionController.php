@@ -63,4 +63,13 @@ class SelectionController extends Controller
 
         return true;
     }
+
+    public function cancel(Request $request): bool
+    {
+        $student = auth()->user();
+        $selection = Selection::where(['project_id' => $request->project_id, 'student_id' => $student->id])->first();
+        $selection->delete();
+
+        return true;
+    }
 }

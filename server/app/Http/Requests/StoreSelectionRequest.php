@@ -37,7 +37,7 @@ class StoreSelectionRequest extends FormRequest
             'project_id' => ['required', 'exists:App\Models\Project,id'],
             'student_id' => ['required', 'exists:App\Models\User,id'],
             'teacher_id' => ['nullable', 'exists:App\Models\User,id'],
-            'order' => ['nullable', 'numeric', 'min:0', 'max:4'],
+            'order' => ['nullable', 'numeric', 'min:0'],
             'status' => ['nullable', 'numeric', 'min:0', 'max:10'],
         ];
     }
@@ -56,7 +56,7 @@ class StoreSelectionRequest extends FormRequest
         $order = 1;
         $selection = Selection::select('order')->where('student_id', $student->id)->orderBy('order', 'desc')->first();
         if (!is_null($selection)) {
-            $selection->order < 3 ? $order = $selection->order + 1 : $order = null;
+            $order = $selection->order + 1;
         }
 
         $this->merge([
