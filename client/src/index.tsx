@@ -17,6 +17,7 @@ import MyProjectsDelete from "./views/my_projects/Delete";
 
 import Projects from "./views/Projects";
 import Selections from "./views/selections/Index";
+import SelectionsDelete from "./views/selections/Delete";
 import SelectProject from "./views/selections/SelectProject";
 import CancelSelect from "./views/selections/CancelSelect";
 
@@ -52,6 +53,8 @@ render(
                         <Route path="/cancel-select/:id" element={<CancelSelect/>}/>
 
                         <Route path="/selections" element={<Selections/>}/>
+                        <Route path="/selections/:id/delete" element={<SelectionsDelete/>}/>
+
                         <Route path="/students" element={<Students/>}/>
                         <Route path="/profile" element={<Profile/>}/>
                         <Route path="/logout" element={<Logout/>}/>

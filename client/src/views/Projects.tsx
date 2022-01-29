@@ -12,7 +12,6 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DoneIcon from "@mui/icons-material/Done";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
-import helpers from "../helpers";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -46,15 +45,6 @@ const Projects = () => {
         setOpenDialog(false);
         return navigate('/cancel-select/' + id);
     };
-
-    const userStorageId = process.env.REACT_APP_STORAGE_NAME + '_user_id';
-    let userId: any;
-
-    if (localStorage.getItem(userStorageId)) {
-        userId = helpers.decryptStorageData(userStorageId, "local");
-    } else {
-        userId = helpers.decryptStorageData(userStorageId);
-    }
 
     const columns: GridColDef[] = [
         {field: 'id', headerName: 'ID', width: 70},
@@ -149,21 +139,32 @@ const Projects = () => {
 
                 return (
                     <List>
-                        {action() === 1 ?
+                        {action() === 0 ?
                             <ListItem title="Tercih Yap">
                                 <AddCircleIcon onClick={selection}
                                                className="text-blue-500 cursor-pointer hover:text-blue-800"/>
                             </ListItem>
-                            : action() === 0 ?
+                            : action() === 1 ?
                                 <ListItem title="Tercihi İptal Et">
                                     <DoDisturbOnIcon onClick={cancel}
                                                      className="text-red-500 cursor-pointer hover:text-red-800"/>
                                 </ListItem>
-                                :
-                                <ListItem title="Daha fazla tercih yapılamaz">
-                                    <AddCircleIcon onClick={cancel}
-                                                     className="text-gray-500 cursor-not-allowed"/>
-                                </ListItem>
+                                : action() === 2 ?
+                                    <ListItem title="Daha fazla tercih yapılamaz">
+                                        <AddCircleIcon onClick={cancel}
+                                                       className="text-gray-500 cursor-not-allowed"/>
+                                    </ListItem>
+                                    : action() === 3 ?
+                                        <ListItem title="Bu proje başka bir öğrenci tarafından alındı">
+                                            <AddCircleIcon onClick={cancel}
+                                                           className="text-gray-500 cursor-not-allowed"/>
+                                        </ListItem>
+                                        : action() === 4 ?
+                                            <ListItem title="Tercih iptal edilemez">
+                                                <AddCircleIcon onClick={cancel}
+                                                               className="text-gray-500 cursor-not-allowed"/>
+                                            </ListItem>
+                                            : null
                         }
 
                     </List>

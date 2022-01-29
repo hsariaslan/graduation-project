@@ -5,13 +5,14 @@ import {update} from '../../features/title/title';
 import {DataGrid, GridApi, GridCellValue, GridColDef} from '@mui/x-data-grid';
 import axios from "axios";
 import DoDisturbOnIcon from '@mui/icons-material/DoDisturbOn';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 
 const Selections = () => {
     const dispatch = useDispatch();
@@ -97,7 +98,7 @@ const Selections = () => {
             sortable: false,
             width: 130,
             renderCell: (params) => {
-                const findId = () => {
+                const findRow = () => {
                     const api: GridApi = params.api;
                     const thisRow: Record<string, GridCellValue> = {};
 
@@ -107,18 +108,34 @@ const Selections = () => {
                         .forEach(
                             (c: any) => (thisRow[c.field] = params.getValue(params.id, c.field))
                         );
-                    return thisRow.id as number;
-                }
+                    return [thisRow.id as number, thisRow.actions as number];
+                };
+                const action = () => {
+                    let foundAction: any = findRow();
+                    return foundAction[1] as number;
+                };
                 const cancel = (e: any) => {
                     e.stopPropagation(); // don't select this row after clicking
-                    let foundId: number = findId();
-                    setId(foundId);
+                    let foundId: any = findRow();
+                    setId(foundId[0] as number);
                     handleClickOpen();
                 };
 
                 return (
                     <div className="flex gap-x-2">
-                        <DeleteIcon onClick={cancel} className="text-gray-500 cursor-pointer hover:text-red-500"/>
+                        <List>
+                            {action() === 0 ?
+                                <ListItem title="Tercih İptal Edilemez">
+                                    <DoDisturbOnIcon className="text-gray-500 cursor-not-allowed"/>
+                                </ListItem>
+                                : action() === 1 ?
+                                    <ListItem title="Tercihi İptal Et">
+                                        <DoDisturbOnIcon onClick={cancel}
+                                                         className="text-red-500 cursor-pointer hover:text-red-800"/>
+                                    </ListItem>
+                                    : null
+                            }
+                        </List>
                     </div>
                 );
             }

@@ -26,7 +26,6 @@ class ProjectSeeder extends Seeder
             'user_id' => 1,
             'title' => 'Deneme 2',
             'description' => 'Açıklama 2',
-            'status' => 1,
             'deadline' => date('Y-m-d H:i:s', strtotime($now . ' +1 day')),
         ]);
 
@@ -34,7 +33,6 @@ class ProjectSeeder extends Seeder
             'user_id' => 1,
             'title' => 'Deneme 3',
             'description' => 'Açıklama 3',
-            'status' => 2,
             'deadline' => date('Y-m-d H:i:s', strtotime($now . ' +1 day')),
             'uploads' => 'deneme.txt',
         ]);
@@ -43,18 +41,9 @@ class ProjectSeeder extends Seeder
             'user_id' => 1,
             'title' => 'Deneme 4',
             'description' => 'Açıklama 4',
-            'status' => 3,
             'deadline' => date('Y-m-d H:i:s', strtotime($now . ' +1 day')),
             'uploads' => 'deneme2.txt',
             'score' => 90,
-        ]);
-
-        Project::create([
-            'user_id' => 2,
-            'title' => 'Öğrencinin Projesi',
-            'description' => 'Öğrencinin Açıklaması',
-            'status' => 1,
-            'deadline' => date('Y-m-d H:i:s', strtotime($now . ' +1 day')),
         ]);
     }
 }
