@@ -15,8 +15,8 @@ class CreateSelectionsTable extends Migration
     {
         Schema::create('selections', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('project_id');
             $table->unsignedInteger('student_id');
+            $table->unsignedInteger('project_id');
             $table->unsignedInteger('teacher_id')->nullable();
             $table->unsignedTinyInteger('order')->default(1);   // öğrencinin proje tercihi sırası
             /*
@@ -31,8 +31,8 @@ class CreateSelectionsTable extends Migration
             $table->unsignedTinyInteger('status')->default(0);
             $table->timestamps();
 
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
             $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
