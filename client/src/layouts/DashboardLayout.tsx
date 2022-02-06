@@ -134,7 +134,7 @@ const DashboardLayout = () => {
     const title = useSelector((state:IState) => state.title.value);
 
     const theme = useTheme();
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
         setOpen(true);
