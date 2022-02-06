@@ -26,7 +26,7 @@ const MyProjects = () => {
 
     useEffect(() => {
         dispatch(update("Projelerim"));
-        axios.get('/projects').then(response => {
+        axios.get('/my-projects').then(response => {
             setRows(response.data.data);
         }).catch(error => {
             console.log(error);
@@ -47,12 +47,13 @@ const MyProjects = () => {
     };
 
     const columns: GridColDef[] = [
-        {field: 'id', headerName: 'ID',},
+        {field: 'id', headerName: 'ID', width: 70,},
         {field: 'title', headerName: 'Proje Adı', width: 400},
+        {field: 'selection_count', headerName: 'Tercih Edenler', width: 150},
         {
             field: 'status',
             headerName: 'Durumu',
-            width: 200,
+            width: 150,
             renderCell: (params) => {
                 const findValue = () => {
                     const api: GridApi = params.api;
@@ -102,7 +103,7 @@ const MyProjects = () => {
                 );
             }
         },
-        {field: 'deadline', headerName: 'Bitiş Tarihi', width: 200},
+        {field: 'deadline', headerName: 'Bitiş Tarihi', width: 170},
         {
             field: "actions",
             headerName: "İşlemler",
@@ -140,9 +141,15 @@ const MyProjects = () => {
 
                 return (
                     <div className="flex gap-x-2">
-                        <VisibilityIcon onClick={show} className="text-gray-500 cursor-pointer hover:text-blue-500"/>
-                        <EditIcon onClick={edit} className="text-gray-500 cursor-pointer hover:text-green-500"/>
-                        <DeleteIcon onClick={deleteItem} className="text-gray-500 cursor-pointer hover:text-red-500"/>
+                        <div title="İncele">
+                            <VisibilityIcon onClick={show} className="text-blue-500 cursor-pointer hover:text-blue-800"/>
+                        </div>
+                        <div title="Düzenle">
+                            <EditIcon onClick={edit} className="text-green-500 cursor-pointer hover:text-green-800"/>
+                        </div>
+                        <div title="Sil">
+                            <DeleteIcon onClick={deleteItem} className="text-red-500 cursor-pointer hover:text-red-800"/>
+                        </div>
                     </div>
                 );
             }

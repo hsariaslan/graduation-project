@@ -17,6 +17,7 @@ interface Project {
     status: string;
     score: string;
     uploads: string;
+    selection_count: string;
 }
 
 const MyProjectsShow = () => {
@@ -76,6 +77,8 @@ const MyProjectsShow = () => {
                     <p><b>Projeyi Yayınlayan:</b> {data?.user?.name + ' ' + data?.user?.surname + ' (' + data?.user?.role +')'}</p>
                     <p><b>Son Teslim Tarihi:</b> {data.deadline}</p>
                     <p className="flex items-center gap-x-1"><b>Proje Durumu:</b> <span>{returnElement}</span></p>
+                    <p><b>Projeyi Tercih Eden Öğrencilerin Sayısı:</b> {data.selection_count}</p>
+                    <p><b>Projeye Kabul Edilen Öğrenci:</b> {data.selection_count}</p>
                     <p><b>Öğrencinin Notu:</b> {data.score}</p>
                     <p><b>Yüklemeler:</b> {data.uploads}</p>
                     <p><b>Detaylar:</b> <br/> {data.description}</p>
