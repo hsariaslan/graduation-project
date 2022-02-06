@@ -16,6 +16,12 @@ class ProjectController extends Controller
         return ProjectResource::collection(Project::all());
     }
 
+    public function myProjects(): AnonymousResourceCollection
+    {
+        $user = auth()->user();
+        return ProjectResource::collection(Project::where('user_id', $user->id)->get());
+    }
+
     public function store(StoreProjectRequest $request): ProjectResource
     {
         $project = Project::create([
