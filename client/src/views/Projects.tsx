@@ -14,6 +14,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import DoneIcon from "@mui/icons-material/Done";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
 
 const Projects = () => {
     const dispatch = useDispatch();
