@@ -38,7 +38,7 @@ class Project extends Model
     /**
      * A project might have various selections.
      */
-    public function selection(): HasMany
+    public function selections(): HasMany
     {
         return $this->hasMany(Selection::class);
     }

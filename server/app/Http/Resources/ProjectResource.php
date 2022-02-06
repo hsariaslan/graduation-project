@@ -2,9 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Selection;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Project;
 use App\Models\User;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProjectResource extends JsonResource
 {
@@ -24,15 +24,20 @@ class ProjectResource extends JsonResource
          * 4 -> tercih bekleme aşamasını geçtiği için (hoca tercihi onayladığı için) tercih iptal edilemez
          * */
         $action = 0;
-        $student = auth()->user();
-        $selections = Selection::select('project_id', 'student_id', 'status')->where('student_id', $student->id)->get();
+        $loggedUser = auth()->user();
+        $project = Project::with(['user', 'selections', 'assignment'])->where('id', $this->id)->first();
+        $selectionCount = $project->selections->count();
+//        $selections = Selection::where('student_id', $loggedUser->id)->first()->project->id;
+//        $selections = Selection::select('project_id', 'student_id', 'status')->where('student_id', $loggedUser->id)->get();
+//        $selectionCount = Selection::select('student_id')->where('project_id', $this->id)->count();
 
         // öğrencinin tercih sayısı 3 ise daha fazla tercih yapamaz uyarısını göster
-        if(count($selections) == 3) {
+//        if(count($selections) == 3) {
+        if($selectionCount == 3) {
             $action = 2;
         }
 
-        foreach($selections as $selection) {
+        foreach($project->selections as $selection) {
             // eğer proje öğrencinin tercih ettiği proje ise ve hoca tercihi henüz onaylamamışsa tercihi iptal etme seçeneğini göster
             if($selection->project_id == $this->id) {
                 if($selection->status == 0) {
@@ -43,15 +48,11 @@ class ProjectResource extends JsonResource
             }
         }
 
-//        // eğer proje başka bir öğrencinin tercih ettiği proje ise uyarı göster
-//        if($this->student_id != $student->id) {
-//            $action = 3;
-//        }
-
         return [
             'id' => $this->id,
             'user' => new UserResource(User::findOrFail($this->user_id)),
             'title' => $this->title,
+            'selection_count' => $selectionCount,
             'description' => $this->description,
             'status' => $this->status,
             'deadline' => date('d.m.Y - H:i', strtotime($this->deadline)),
