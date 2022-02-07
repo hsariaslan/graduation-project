@@ -16,7 +16,9 @@ class SelectionController extends Controller
 {
     public function index(): AnonymousResourceCollection
     {
-        return SelectionResource::collection(Selection::all());
+        $loggedUser = auth()->user();
+        $selections = Selection::where('student_id', $loggedUser->id)->get();
+        return SelectionResource::collection($selections);
     }
 
     public function store(StoreSelectionRequest $request): SelectionResource

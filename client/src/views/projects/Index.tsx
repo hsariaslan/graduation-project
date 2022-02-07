@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {useDispatch} from 'react-redux';
-import {useNavigate} from "react-router-dom";
-import {update} from '../features/title/title';
+import {useNavigate, Link} from "react-router-dom";
+import {update} from '../../features/title/title';
 import axios from "axios";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -15,13 +15,10 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
-import DoneIcon from "@mui/icons-material/Done";
-import DoneAllIcon from "@mui/icons-material/DoneAll";
 import DoDisturbOnIcon from "@mui/icons-material/DoDisturbOn";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const Projects = () => {
     const dispatch = useDispatch();
@@ -52,12 +49,20 @@ const Projects = () => {
         return navigate('/cancel-select/' + id);
     };
 
+    const cancel = (id: number) => {
+        setId(id);
+        handleClickOpen();
+    };
+
     return (
-        <div style={{height: 400, width: '100%'}}>
+        <div style={{width: '100%'}}>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
                     <TableHead className="bg-blue-500">
                         <TableRow>
+                            <TableCell>
+                                <span className="text-white">No</span>
+                            </TableCell>
                             <TableCell>
                                 <span className="text-white">Proje Adı</span>
                             </TableCell>
@@ -65,7 +70,7 @@ const Projects = () => {
                                 <span className="text-white">Öğretim Üyesi</span>
                             </TableCell>
                             <TableCell align="center">
-                                <span className="text-white">Tercih Edenlerin Sayısı</span>
+                                <span className="text-white">Tercih Edenler</span>
                             </TableCell>
                             <TableCell align="center">
                                 <span className="text-white">Durumu</span>
@@ -79,19 +84,52 @@ const Projects = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row:any) => (
+                        {rows.map((row: any) => (
                             <TableRow
                                 key={row.title}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
-                                <TableCell component="th" scope="row">
-                                    {row.title}
-                                </TableCell>
+                                <TableCell component="th" scope="row">{rows.indexOf(row) + 1}</TableCell>
+                                <TableCell>{row.title}</TableCell>
                                 <TableCell>{row.user?.name + ' ' + row.user?.surname}</TableCell>
                                 <TableCell align="center">{row.selection_count}</TableCell>
-                                <TableCell align="center">{row.status}</TableCell>
+                                <TableCell align="center">
+                                    {row.status !== 1 && row.status !== 4 && row.status !== 6 ?
+                                        <div className="flex items-center gap-x-1">
+                                            <AccessTimeIcon className="text-gray-500"/>
+                                            <span className="text-gray-500 mt-1"><i>Bekliyor</i></span>
+                                        </div>
+                                        : <div className="flex items-center gap-x-1">
+                                            <CheckCircleOutlineIcon className="text-blue-500"/>
+                                            <span className="text-blue-500 mt-1"><i>Kabul Edildi</i></span>
+                                        </div>
+                                    }
+                                </TableCell>
                                 <TableCell align="center">{row.deadline}</TableCell>
-                                <TableCell align="right">{row.actions}</TableCell>
+                                <TableCell align="right">
+                                    <div>
+                                        <Link title="Detaylar" to={"/projects/" + row.id}>
+                                            <VisibilityIcon
+                                                className="text-blue-500 cursor-pointer hover:text-blue-800"/>
+                                        </Link>
+                                        {row.actions === 0 ?
+                                            <Link title="Tercih Yap" to={"/select-project/" + row.id}>
+                                                <AddCircleIcon
+                                                    className="text-green-500 cursor-pointer hover:text-green-800"/>
+                                            </Link>
+                                            : row.actions === 1 ?
+                                                <a title="Tercihi İptal Et" href="javascript:void(0);">
+                                                    <DoDisturbOnIcon onClick={() => cancel(row.id)}
+                                                                     className="text-red-500 cursor-pointer hover:text-red-800"/>
+                                                </a>
+                                                : row.actions === 4 ?
+                                                    <a title="Tercih iptal edilemez" href="javascript:void(0);">
+                                                        <DoDisturbOnIcon className="text-gray-500 cursor-not-allowed"/>
+                                                    </a>
+                                                    : null
+                                        }
+                                    </div>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

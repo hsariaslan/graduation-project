@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Selection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProjectResource extends JsonResource
@@ -25,26 +26,24 @@ class ProjectResource extends JsonResource
          * */
         $action = 0;
         $loggedUser = auth()->user();
-        $project = Project::with(['user', 'selections', 'assignment'])->where('id', $this->id)->first();
-        $selectionCount = $project->selections->count();
-//        $selections = Selection::where('student_id', $loggedUser->id)->first()->project->id;
-//        $selections = Selection::select('project_id', 'student_id', 'status')->where('student_id', $loggedUser->id)->get();
-//        $selectionCount = Selection::select('student_id')->where('project_id', $this->id)->count();
+        $project = Project::with(['user', 'selections'])->where('id', $this->id)->first();
+        $studentSelectionsCount = Selection::where('student_id', $loggedUser->id)->count();
 
         // öğrencinin tercih sayısı 3 ise daha fazla tercih yapamaz uyarısını göster
-//        if(count($selections) == 3) {
-        if($selectionCount == 3) {
+        if($studentSelectionsCount == 3) {
             $action = 2;
         }
 
         foreach($project->selections as $selection) {
             // eğer proje öğrencinin tercih ettiği proje ise ve hoca tercihi henüz onaylamamışsa tercihi iptal etme seçeneğini göster
-            if($selection->project_id == $this->id) {
+            if($selection->student_id == $loggedUser->id) {
                 if($selection->status == 0) {
                     $action = 1;
                 } else {
                     $action = 4;
                 }
+            } elseif(in_array($selection->status, [1, 4, 6])) {
+                $action = 3;
             }
         }
 
@@ -52,7 +51,7 @@ class ProjectResource extends JsonResource
             'id' => $this->id,
             'user' => new UserResource(User::findOrFail($this->user_id)),
             'title' => $this->title,
-            'selection_count' => $selectionCount,
+            'selection_count' => $project->selections->count(),
             'description' => $this->description,
             'status' => $this->status,
             'deadline' => date('d.m.Y - H:i', strtotime($this->deadline)),

@@ -57,7 +57,7 @@ class User extends Authenticatable
      */
     public function selections(): HasMany
     {
-        return $this->hasMany(Selection::class);
+        return $this->hasMany(Selection::class, 'student_id');
     }
 
     /**

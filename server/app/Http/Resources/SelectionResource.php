@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\User;
 use App\Models\Project;
+use App\Models\Selection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SelectionResource extends JsonResource
