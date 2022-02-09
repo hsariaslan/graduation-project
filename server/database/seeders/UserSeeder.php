@@ -85,6 +85,7 @@ class UserSeeder extends Seeder
             'name'      => 'Hakan',
             'surname'   => 'Sarıaslan',
             'role'      => 2,
+            'number'    => '16541512',
         ]);
 
         User::create([
@@ -93,6 +94,7 @@ class UserSeeder extends Seeder
             'name'      => 'Hasan',
             'surname'   => 'Topuz',
             'role'      => 2,
+            'number'    => '16541513',
         ]);
 
         User::create([
@@ -101,6 +103,7 @@ class UserSeeder extends Seeder
             'name'      => 'Kamil',
             'surname'   => 'Taşkıran',
             'role'      => 2,
+            'number'    => '18541513',
         ]);
 
         User::create([
@@ -109,6 +112,7 @@ class UserSeeder extends Seeder
             'name'      => 'Hatice',
             'surname'   => 'Eyşan',
             'role'      => 2,
+            'number'    => '18542613',
         ]);
 
         User::create([
@@ -117,6 +121,7 @@ class UserSeeder extends Seeder
             'name'      => 'Nursel',
             'surname'   => 'Gülseren',
             'role'      => 2,
+            'number'    => '18542813',
         ]);
     }
 }

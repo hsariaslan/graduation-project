@@ -28,6 +28,7 @@ class ProjectResource extends JsonResource
         $loggedUser = auth()->user();
         $project = Project::with(['user', 'selections'])->where('id', $this->id)->first();
         $studentSelectionsCount = Selection::where('student_id', $loggedUser->id)->count();
+        $studentsSelectedThisProject = [];
 
         // öğrencinin tercih sayısı 3 ise daha fazla tercih yapamaz uyarısını göster
         if($studentSelectionsCount == 3) {
@@ -45,6 +46,12 @@ class ProjectResource extends JsonResource
             } elseif(in_array($selection->status, [1, 4, 6])) {
                 $action = 3;
             }
+
+            $student = $selection->user;
+            $student->selection_id = $selection->id;
+            $student->order = $selection->order;
+            $student->action = $selection->status;
+            $studentsSelectedThisProject[] = $student;
         }
 
         return [
@@ -58,6 +65,7 @@ class ProjectResource extends JsonResource
             'uploads' => $this->uploads,
             'score' => $this->score,
             'actions' => $action,
+            'students' => $studentsSelectedThisProject,
         ];
     }
 }

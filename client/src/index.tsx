@@ -20,7 +20,8 @@ import ProjectsShow from "./views/projects/Show";
 import Selections from "./views/selections/Index";
 import SelectionsDelete from "./views/selections/Delete";
 import SelectProject from "./views/selections/SelectProject";
-import CancelSelect from "./views/selections/CancelSelect";
+import ConfirmSelection from "./views/selections/ConfirmSelection";
+import RejectSelection from "./views/selections/RejectSelection";
 
 import Students from "./views/Students";
 import Profile from "./views/Profile";
@@ -51,11 +52,12 @@ render(
 
                         <Route path="/projects" element={<Projects/>}/>
                         <Route path="/projects/:id" element={<ProjectsShow/>}/>
-                        <Route path="/select-project/:id" element={<SelectProject/>}/>
-                        <Route path="/cancel-select/:id" element={<CancelSelect/>}/>
 
                         <Route path="/selections" element={<Selections/>}/>
+                        <Route path="/selections/:id" element={<SelectProject/>}/>
                         <Route path="/selections/:id/delete" element={<SelectionsDelete/>}/>
+                        <Route path="/confirm-selection/:id" element={<ConfirmSelection/>}/>
+                        <Route path="/reject-selection/:id" element={<RejectSelection/>}/>
 
                         <Route path="/students" element={<Students/>}/>
                         <Route path="/profile" element={<Profile/>}/>

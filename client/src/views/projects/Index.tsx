@@ -46,7 +46,7 @@ const Projects = () => {
 
     const handleConfirm = () => {
         setOpenDialog(false);
-        return navigate('/cancel-select/' + id);
+        return navigate('/selections/' + id + '/delete');
     };
 
     const cancel = (id: number) => {
@@ -57,7 +57,7 @@ const Projects = () => {
     return (
         <div style={{width: '100%'}}>
             <TableContainer component={Paper}>
-                <Table sx={{minWidth: 650}} size="small" aria-label="a dense table">
+                <Table sx={{minWidth: 650}} size="small">
                     <TableHead className="bg-blue-500">
                         <TableRow>
                             <TableCell>
@@ -113,7 +113,7 @@ const Projects = () => {
                                                 className="text-blue-500 cursor-pointer hover:text-blue-800"/>
                                         </Link>
                                         {row.actions === 0 ?
-                                            <Link title="Tercih Yap" to={"/select-project/" + row.id}>
+                                            <Link title="Tercih Yap" to={"/selections/" + row.id}>
                                                 <AddCircleIcon
                                                     className="text-green-500 cursor-pointer hover:text-green-800"/>
                                             </Link>

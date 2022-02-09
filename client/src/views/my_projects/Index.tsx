@@ -9,7 +9,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import DoneIcon from '@mui/icons-material/Done';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import Dialog from '@mui/material/Dialog';
@@ -78,8 +77,8 @@ const MyProjects = () => {
                         break;
                     case 1:
                         returnElement = (<div className="flex items-center gap-x-1">
-                            <CheckCircleOutlineIcon className="text-blue-500" />
-                            <span className="text-blue-500 mt-1"><i>Kabul Edildi</i></span>
+                            <DoneAllIcon className="text-green-500" />
+                            <span className="text-green-500 mt-1"><i>Kabul Edildi</i></span>
                         </div>);
                         break;
                     case 2:
@@ -90,8 +89,8 @@ const MyProjects = () => {
                         break;
                     case 3:
                         returnElement = (<div className="flex items-center gap-x-1">
-                            <DoneAllIcon className="text-green-500" />
-                            <span className="text-green-500 mt-1"><i>Not Verildi</i></span>
+                            <DoneAllIcon className="text-blue-500" />
+                            <span className="text-blue-500 mt-1"><i>Not Verildi</i></span>
                         </div>);
                         break;
                 }

@@ -21,16 +21,21 @@ class SelectionController extends Controller
         return SelectionResource::collection($selections);
     }
 
-    public function store(StoreSelectionRequest $request): SelectionResource
+    public function store(StoreSelectionRequest $request)
     {
-        $selection = Selection::create([
-            'project_id' => $request->project_id,
-            'student_id' => $request->student_id,
-            'teacher_id' => $request->teacher_id,
-            'order' => $request->order,
-        ]);
+        $loggedUser = auth()->user();
 
-        return new SelectionResource($selection);
+        if($loggedUser->role == 2) {
+            $selection = Selection::create([
+                'project_id' => $request->project_id,
+                'student_id' => $loggedUser->id,
+                'order' => $request->order,
+            ]);
+
+            return new SelectionResource($selection);
+        } else {
+            return false;
+        }
     }
 
     public function show(Selection $selection): SelectionResource
@@ -57,21 +62,39 @@ class SelectionController extends Controller
         return true;
     }
 
-    public function select(Request $request): bool
+    public function confirm(Request $request)
     {
-        $project = Project::where('id', $request->id)->first();
-        $project->status = 1;
-        $project->save();
+        $loggedUser = auth()->user();
 
-        return true;
+        if($loggedUser->role == 1) {
+            $selection = Selection::with('project')->where('id', $request->id)->first();
+            $selection->status = 1;
+            $selection->project->status = 1;
+            $selection->project->save();
+            $selection->save();
+
+            return response()->json([
+                'project_id' => $selection->project_id,
+            ]);
+        } else {
+            return false;
+        }
     }
 
-    public function cancel(Request $request): bool
+    public function reject(Request $request)
     {
-        $student = auth()->user();
-        $selection = Selection::where(['project_id' => $request->project_id, 'student_id' => $student->id])->first();
-        $selection->delete();
+        $loggedUser = auth()->user();
 
-        return true;
+        if($loggedUser->role == 1) {
+            $selection = Selection::where('id', $request->id)->first();
+            $selection->status = 2;
+            $selection->save();
+
+            return response()->json([
+                'project_id' => $selection->project_id,
+            ]);
+        } else {
+            return false;
+        }
     }
 }

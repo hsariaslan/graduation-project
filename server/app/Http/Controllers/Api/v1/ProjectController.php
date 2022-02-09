@@ -7,6 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use App\Http\Resources\ProjectResource;
+use App\Http\Resources\MyProjectResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ProjectController extends Controller
@@ -19,7 +20,7 @@ class ProjectController extends Controller
     public function myProjects(): AnonymousResourceCollection
     {
         $user = auth()->user();
-        return ProjectResource::collection(Project::where('user_id', $user->id)->get());
+        return MyProjectResource::collection(Project::where('user_id', $user->id)->get());
     }
 
     public function store(StoreProjectRequest $request): ProjectResource
