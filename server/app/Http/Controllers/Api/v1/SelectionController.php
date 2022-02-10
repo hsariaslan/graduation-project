@@ -25,17 +25,13 @@ class SelectionController extends Controller
     {
         $loggedUser = auth()->user();
 
-        if($loggedUser->role == 2) {
-            $selection = Selection::create([
-                'project_id' => $request->project_id,
-                'student_id' => $loggedUser->id,
-                'order' => $request->order,
-            ]);
+        $selection = Selection::create([
+            'project_id' => $request->project_id,
+            'student_id' => $loggedUser->id,
+            'order' => $request->order,
+        ]);
 
-            return new SelectionResource($selection);
-        } else {
-            return false;
-        }
+        return new SelectionResource($selection);
     }
 
     public function show(Selection $selection): SelectionResource
@@ -72,6 +68,13 @@ class SelectionController extends Controller
             $selection->project->status = 1;
             $selection->project->save();
             $selection->save();
+
+            $otherSelections = Selection::where('student_id', $selection->student_id)->where('status', '!=', 1)->get();
+
+            foreach ($otherSelections as $otherSelection) {
+                $otherSelection->status = 2;
+                $otherSelection->save();
+            }
 
             return response()->json([
                 'project_id' => $selection->project_id,

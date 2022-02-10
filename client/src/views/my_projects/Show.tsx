@@ -54,7 +54,7 @@ const MyProjectsShow = () => {
     // console.log(data);
 
     const handleClickOpen = (action: string) => {
-        if(action === 'confirm') {
+        if (action === 'confirm') {
             setOpenConfirmDialog(true);
         } else if (action === 'reject') {
             setOpenRejectDialog(true);
@@ -163,6 +163,15 @@ const MyProjectsShow = () => {
                                     <span className="text-white">#</span>
                                 </TableCell>
                                 <TableCell>
+                                    <span className="text-white">selection_id</span>
+                                </TableCell>
+                                <TableCell>
+                                    <span className="text-white">student_id</span>
+                                </TableCell>
+                                <TableCell>
+                                    <span className="text-white">project_id</span>
+                                </TableCell>
+                                <TableCell>
                                     <span className="text-white">Öğrenci No</span>
                                 </TableCell>
                                 <TableCell>
@@ -183,6 +192,9 @@ const MyProjectsShow = () => {
                             {rows.map((row: any) => (
                                 <TableRow>
                                     <TableCell>{rows.indexOf(row) + 1}</TableCell>
+                                    <TableCell>{row.selection_id}</TableCell>
+                                    <TableCell>{row.id}</TableCell>
+                                    <TableCell>{data.id}</TableCell>
                                     <TableCell>{row.number}</TableCell>
                                     <TableCell>{row.name + ' ' + row.surname}</TableCell>
                                     <TableCell>{row.email}</TableCell>
@@ -211,7 +223,18 @@ const MyProjectsShow = () => {
                                                         <RemoveDoneIcon fontSize="small" className="text-red-500"/>
                                                         <i className="text-red-500">Reddedildi</i>
                                                     </div>
-                                                    : null
+                                                    : row.action === 3 ?
+                                                        <div>
+                                                            <a title="İşlem yapılamaz."
+                                                               href="javascript:void(0);">
+                                                                <CheckCircleIcon className="text-gray-500 cursor-not-allowed"/>
+                                                            </a>
+                                                            <a title="İşlem yapılamaz."
+                                                               href="javascript:void(0);">
+                                                                <DoDisturbOnIcon className="text-gray-500 cursor-not-allowed"/>
+                                                            </a>
+                                                        </div>
+                                                        : null
                                         }
                                     </TableCell>
                                 </TableRow>
