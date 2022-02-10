@@ -17,6 +17,15 @@ interface AuthContextType {
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.interceptors.response.use(response => {
+    return response;
+}, error => {
+    if (error.response.status === 401) {
+        window.location.href = "/logout";
+    }
+    return error;
+});
+
 const userStorageName = process.env.REACT_APP_STORAGE_NAME + '_user_';
 let AuthContext = React.createContext<AuthContextType>(null!);
 
