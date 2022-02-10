@@ -31,9 +31,9 @@ class CreateSelectionsTable extends Migration
             $table->unsignedTinyInteger('status')->default(0);
             $table->timestamps();
 
-            $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->foreign('teacher_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('student_id')->references('id')->on('users');
+            $table->foreign('project_id')->references('id')->on('projects');
+            $table->foreign('teacher_id')->references('id')->on('users');
         });
     }
 
