@@ -121,7 +121,6 @@ const DashboardLayout = () => {
             ['Anasayfa', ''],
             ['Projelerim', 'my-projects'],
             ['Projeler', 'projects'],
-            ['Öğrenciler', 'students'],
         ]
     } else if(userRole === "2") {
         menus = [
@@ -194,15 +193,13 @@ const DashboardLayout = () => {
                 <Divider />
                 <List>
                     {[
-                        ['Profil', 'profile'],
                         ['Çıkış', 'logout'],
                     ].map((text, index) => (
                         <Link to={'/' + text[1]} key={text[0]}>
                             <ListItem button>
                                 <ListItemIcon>
                                     {
-                                        index === 0 ? <AccountBoxIcon /> :
-                                        index === 1 ? <LogoutIcon /> : null
+                                        index === 0 ? <LogoutIcon /> : null
                                     }
                                 </ListItemIcon>
                                 <ListItemText primary={text[0]} />

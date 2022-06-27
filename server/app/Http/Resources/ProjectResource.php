@@ -17,7 +17,9 @@ class ProjectResource extends JsonResource
      */
     public function toArray($request)
     {
+        $loggedUser = auth()->user();
         /* actions
+         * null -> öğretim üyesi
          * 0 -> tercih yap
          * 1 -> tercihi iptal et
          * 2 -> daha fazla tercih yapılamaz
@@ -25,7 +27,6 @@ class ProjectResource extends JsonResource
          * 4 -> tercih bekleme aşamasını geçtiği için (hoca tercihi onayladığı için) tercih iptal edilemez
          * */
         $action = 0;
-        $loggedUser = auth()->user();
         $project = Project::with(['user', 'selections'])->where('id', $this->id)->first();
         $studentSelectionsCount = Selection::where('student_id', $loggedUser->id)->count();
         $studentsSelectedThisProject = [];
@@ -97,6 +98,10 @@ class ProjectResource extends JsonResource
             }
 
             $studentsSelectedThisProject[] = $student;
+        }
+
+        if($loggedUser->role == 1) {
+            $action = null;
         }
 
         return [

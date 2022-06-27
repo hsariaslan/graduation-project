@@ -24,14 +24,6 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'email'     => 'ozkaynak@firat.edu.tr',
-            'password'  =>  Hash::make('123456'),
-            'name'      => 'Fatih',
-            'surname'   => 'Özkaynak',
-            'role'      => 1,
-        ]);
-
-        User::create([
             'email'     => 'iturkoglu@firat.edu.tr',
             'password'  =>  Hash::make('123456'),
             'name'      => 'İbrahim',
