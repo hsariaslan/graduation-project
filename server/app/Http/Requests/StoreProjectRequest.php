@@ -33,7 +33,7 @@ class StoreProjectRequest extends FormRequest
     {
         return [
             'user_id' => ['required', 'exists:App\Models\User,id'],
-            'title' => ['required', Rule::unique('projects')->ignore($this->project), 'min:3', 'max:20', 'regex:/^[\w\-\s]+$/u'],
+            'title' => ['required', Rule::unique('projects')->ignore($this->project), 'min:3', 'max:50', 'regex:/^[\w\-\s]+$/u'],
             'description' => ['required'],
             'status' => ['required', 'numeric', 'min:0', 'max:4'],
             'deadline' => ['nullable', 'date'],

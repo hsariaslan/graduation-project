@@ -31,7 +31,7 @@ class ProjectSeeder extends Seeder
 
         Project::create([
             'user_id' => 1,
-            'title' => 'Bilgi Güvenliği Projesi 1',
+            'title' => 'Bilgi Güvenliği Projesi 4',
             'description' => 'Bilgi Güvenliği Açıklaması 3',
             'deadline' => date('Y-m-d H:i:s', strtotime($now . ' +1 day')),
         ]);

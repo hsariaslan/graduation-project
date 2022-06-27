@@ -23,8 +23,6 @@ import SelectProject from "./views/selections/SelectProject";
 import ConfirmSelection from "./views/selections/ConfirmSelection";
 import RejectSelection from "./views/selections/RejectSelection";
 
-import Students from "./views/Students";
-import Profile from "./views/Profile";
 import Login from "./views/auth/Login";
 import Register from "./views/auth/Register";
 import Logout from "./views/auth/Logout";
@@ -59,8 +57,6 @@ render(
                         <Route path="/confirm-selection/:id" element={<ConfirmSelection/>}/>
                         <Route path="/reject-selection/:id" element={<RejectSelection/>}/>
 
-                        <Route path="/students" element={<Students/>}/>
-                        <Route path="/profile" element={<Profile/>}/>
                         <Route path="/logout" element={<Logout/>}/>
                     </Route>
                     <Route
